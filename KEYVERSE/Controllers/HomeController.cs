@@ -27,16 +27,18 @@ namespace KeyVerse.Controllers
         // 2. Buscador optimizado para PostgreSQL
         public IActionResult Buscar(string nombre)
         {
+            // Si el buscador llega vacío, lo devolvemos al inicio
             if (string.IsNullOrEmpty(nombre))
             {
                 return RedirectToAction("Index");
             }
 
-            // 🔥 SOLUCIÓN: Usamos EF.Functions.ILike que es nativo de Postgres para buscar texto 
-            // ignorando mayúsculas, minúsculas y acentos de forma ultra eficiente.
+            // 🔥 Búsqueda blindada: Convertimos a minúsculas tanto la BD como el texto del usuario
+            string busqueda = nombre.ToLower();
+
             var resultados = _context.Juegos
-                .Where(j => EF.Functions.ILike(j.Nombre, $"%{nombre}%"))
-                .OrderBy(j => j.IdJuego) // También los mantenemos ordenados aquí
+                .Where(j => j.Nombre.ToLower().Contains(busqueda))
+                .OrderBy(j => j.IdJuego)
                 .ToList();
 
             return View("Index", resultados);
@@ -69,7 +71,17 @@ namespace KeyVerse.Controllers
                 carritoUsuario.Add(juego);
                 HttpContext.Session.SetString("MiCarrito", JsonSerializer.Serialize(carritoUsuario));
             }
-            return RedirectToAction("Index");
+
+            // 🔥 TRUCO UX: Leer la URL de donde vino el clic y devolverlo ahí mismo
+            string urlAnterior = Request.Headers["Referer"].ToString();
+
+            if (!string.IsNullOrEmpty(urlAnterior))
+            {
+                return Redirect(urlAnterior); // Lo deja en la página del juego
+            }
+
+            // Si por alguna razón falla, el plan B es mandarlo al carrito
+            return RedirectToAction("Carrito");
         }
 
         public IActionResult Carrito()

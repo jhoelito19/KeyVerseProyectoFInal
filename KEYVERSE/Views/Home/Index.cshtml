@@ -85,9 +85,9 @@
 
         <div class="row justify-content-center mt-4">
             <div class="col-md-6">
-                <form class="d-flex" action="/Home/Buscar" method="get">
-                    <input class="form-control me-2" type="search" placeholder="Ej. Buscar juegos, mods..." name="criterio">
-                    <button class="btn btn-outline-info" type="submit">Buscar</button>
+                <form asp-controller="Home" asp-action="Buscar" method="get">
+                    <input type="text" name="nombre" placeholder="Ej. Buscar juegos, mods..." class="form-control">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
                 </form>
             </div>
         </div>
