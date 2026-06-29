@@ -4,59 +4,131 @@
 }
 
 <style>
+    /* 🎨 PALETA DARK VINTAGE */
     body {
-        background-color: #1b2838;
-        color: #c7d5e0;
+        background-color: #121212 !important;
+        color: #e4e4e4 !important;
+        font-family: 'Courier New', Courier, monospace;
     }
 
-    .hero-banner {
-        background: linear-gradient(90deg, #171a21 0%, #2a475e 100%);
-        padding: 40px 20px;
-        border-radius: 10px;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    }
-
-    .game-card {
-        background-color: #202d39;
-        border: none;
+    /* Banner Principal */
+    .vintage-banner {
+        background: linear-gradient(135deg, #0d0d0d 0%, #221f1d 100%);
+        border-bottom: 2px solid #c5a059;
+        padding: 4rem 2rem;
         border-radius: 8px;
-        transition: transform 0.2s;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        margin-bottom: 3rem;
+    }
+
+        .vintage-banner h1 {
+            font-family: 'Georgia', serif;
+            color: #c5a059;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+        }
+
+        .vintage-banner p {
+            color: #a09d98;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+    /* Buscador Premium */
+    .search-input {
+        background-color: #1a1a1a;
+        border: 1px solid #c5a059;
+        color: #c5a059;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+        .search-input:focus {
+            background-color: #222;
+            border-color: #dfb662;
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+            color: white;
+        }
+
+    .search-btn {
+        background-color: #c5a059;
+        color: #121212;
+        border: 1px solid #c5a059;
+        font-weight: bold;
+        font-family: 'Georgia', serif;
+        transition: all 0.3s ease;
+    }
+
+        .search-btn:hover {
+            background-color: #dfb662;
+            color: black;
+            box-shadow: 0 0 15px rgba(223, 182, 98, 0.5);
+        }
+
+    /* Tarjetas (Cards) */
+    .game-card {
+        background-color: #1a1a1a !important;
+        border: 1px solid #333 !important;
+        border-radius: 8px;
+        transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        overflow: hidden;
     }
 
         .game-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+            border-color: #c5a059 !important;
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.15) !important;
         }
 
-    .game-price {
-        color: #66c0f4;
+    .card-title {
+        color: #c5a059 !important;
+        font-family: 'Georgia', serif;
         font-weight: bold;
-        font-size: 1.2rem;
+        letter-spacing: 1px;
     }
 
-    .btn-comprar {
-        background: linear-gradient(90deg, #75b022 0%, #588a1b 100%);
-        color: white;
-        border: none;
+    .stock-text {
+        color: #8b8b8b;
+        font-style: italic;
     }
 
-        .btn-comprar:hover {
-            background: linear-gradient(90deg, #8ed629 0%, #6aa620 100%);
-            color: white;
+    .precio-text {
+        color: #e4e4e4;
+        font-family: 'Georgia', serif;
+        text-shadow: 1px 1px 2px black;
+    }
+
+    /* Botón Ver Detalles Vintage */
+    .btn-vintage-outline {
+        border: 1px solid #c5a059;
+        color: #c5a059;
+        background: transparent;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+        .btn-vintage-outline:hover {
+            background-color: #c5a059;
+            color: #121212;
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
         }
 
-    /* 4. Estilos para el contenedor multimedia y el video oculto */
+    /* Contenedor Multimedia */
     .media-container {
         position: relative;
         height: 200px;
-        background-color: #121a24;
-        border-bottom: 1px solid #2a475e;
+        background-color: #0d0d0d;
+        border-bottom: 1px solid #333;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .game-card:hover .media-container {
+        border-bottom: 1px solid #c5a059;
     }
 
     .hover-video {
@@ -65,102 +137,90 @@
         left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Hace que el video llene el cuadro sin deformarse */
-        opacity: 0; /* Oculto por defecto */
-        transition: opacity 0.5s ease; /* Transición suave de fundido */
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.5s ease;
         z-index: 2;
     }
 
     .media-container:hover .hover-video {
-        opacity: 1; /* Aparece al pasar el mouse */
+        opacity: 1;
     }
-
 </style>
 
 <div class="container mt-4">
 
-    <div class="hero-banner text-center text-white">
-        <h1 class="display-4 fw-bold">Bienvenido a KeyVerse</h1>
-        <p class="lead">Las mejores keys de activación, mods y rangos al instante.</p>
+    <div class="vintage-banner text-center">
+        <h1>Bienvenido a KeyVerse</h1>
+        <p>Las mejores keys de activación, mods y software al instante.</p>
 
         <div class="row justify-content-center mt-4">
-            <div class="col-md-6">
-                <form asp-controller="Home" asp-action="Buscar" method="get">
-                    <input type="text" name="nombre" placeholder="Ej. Buscar juegos, mods..." class="form-control">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+            <div class="col-md-8">
+                <form asp-controller="Home" asp-action="Buscar" method="get" class="d-flex justify-content-center gap-2">
+                    <input type="text" name="nombre" class="form-control search-input w-75" placeholder="Ej. Buscar juegos, mods..." value="@ViewBag.BusquedaActual">
+                    <button type="submit" class="btn search-btn px-4">BUSCAR</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <h3 class="mb-4 text-white">Catálogo Oficial en Stock</h3>
+    <h3 class="mb-4 text-white" style="font-family: 'Georgia', serif; border-bottom: 1px solid #333; padding-bottom: 10px;">Catálogo Oficial en Stock</h3>
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
         @foreach (var juego in Model)
         {
-            // --- MAGIA C#: ASIGNAMOS IMÁGENES Y VIDEOS DINÁMICOS ---
-
             // --- MAGIA C#: IMÁGENES REALES O AUTOGENERADAS ---
             string urlImagen = "";
-
-            // Si la base de datos tiene un link de internet (empieza con http), usamos la real
             if (!string.IsNullOrEmpty(juego.ImagenUrl) && juego.ImagenUrl.StartsWith("http"))
             {
                 urlImagen = juego.ImagenUrl;
             }
             else
             {
-                // Si todavía tiene un número viejo, usamos la abstracta para rellenar
                 urlImagen = "https://picsum.photos/seed/" + juego.IdJuego + "/600/300";
             }
 
-            // 2. Tráiler por defecto (Fantasía / RPG)
+            // --- MAGIA C#: VIDEOS POR CATEGORÍA ---
             string urlVideo = "https://media.w3.org/2010/05/sintel/trailer.mp4";
-
-            // 3. Cambiamos el tráiler según la categoría del juego (IdCategoria)
             if (juego.IdCategoria == 1 || juego.IdCategoria == 7)
             {
-                // Deportes e Indie (Tráiler casual / animación)
                 urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
             }
             else if (juego.IdCategoria == 4)
             {
-                // Redes, OSINT y Software (Tráiler tecnológico / código)
                 urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
             }
             else if (juego.IdCategoria == 6 || juego.IdCategoria == 2)
             {
-                // Shooters y Acción (Tráiler de disparos / Sci-Fi)
                 urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4";
             }
-            // --------------------------------------------------------
 
             <div class="col">
-                <div class="card h-100 text-white game-card">
+                <div class="card h-100 game-card">
 
                     <div class="media-container"
                          style="background-image: url('@urlImagen'); background-size: cover; background-position: center;"
                          onmouseenter="var vid = this.querySelector('video'); vid.style.opacity = '1'; vid.play().catch(e => console.log(e));"
                          onmouseleave="var vid = this.querySelector('video'); vid.style.opacity = '0'; vid.pause(); vid.currentTime = 0;">
 
-                        <video class="hover-video" loop muted playsinline style="opacity: 0; transition: opacity 0.5s ease;">
+                        <video class="hover-video" loop muted playsinline>
                             <source src="@urlVideo" type="video/mp4">
                         </video>
                     </div>
 
                     <div class="card-body d-flex flex-column">
-                        <span class="badge bg-secondary mb-2 align-self-start">Categoría #@juego.IdCategoria</span>
+                        <span class="badge mb-2 align-self-start" style="background-color: #333; color: #c5a059; border: 1px solid #c5a059;">Categoría #@juego.IdCategoria</span>
                         <h5 class="card-title">@juego.Nombre</h5>
 
-                        <p class="card-text text-info mt-auto">
+                        <p class="card-text stock-text mt-auto">
                             ✓ En Stock: @juego.Stock unidades
                         </p>
                     </div>
 
-                    <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center pb-3">
-                        <span class="fs-4 fw-bold text-white">@juego.Precio.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</span>
+                    <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center pb-3 pt-0">
+                        <span class="fs-4 fw-bold precio-text">@juego.Precio.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</span>
 
-                        <a href="/Home/Detalles?id=@juego.IdJuego" class="btn btn-outline-info btn-sm btn-animado">🎮 Ver detalles</a>
+                        <a href="/Home/Detalles?id=@juego.IdJuego" class="btn btn-vintage-outline btn-sm">🎮 Ver detalles</a>
                     </div>
                 </div>
             </div>

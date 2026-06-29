@@ -24,18 +24,17 @@ namespace KeyVerse.Controllers
             return View(listaJuegos);
         }
 
-        // 2. Buscador optimizado para PostgreSQL
         public IActionResult Buscar(string nombre)
         {
-            // Si el buscador llega vacío, lo devolvemos al inicio
             if (string.IsNullOrEmpty(nombre))
             {
                 return RedirectToAction("Index");
             }
 
-            // 🔥 Búsqueda blindada: Convertimos a minúsculas tanto la BD como el texto del usuario
-            string busqueda = nombre.ToLower();
+            // 🔥 TRUCO: Guardamos la palabra exacta que escribió el usuario
+            ViewBag.BusquedaActual = nombre;
 
+            string busqueda = nombre.ToLower();
             var resultados = _context.Juegos
                 .Where(j => j.Nombre.ToLower().Contains(busqueda))
                 .OrderBy(j => j.IdJuego)
