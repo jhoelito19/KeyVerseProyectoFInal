@@ -99,7 +99,6 @@ namespace KeyVerse.Controllers
 
             if (carritoFinal.Count > 0)
             {
-                // 🔥 TRUCO DE INGENIERÍA: DESCONTAR EL STOCK REAL EN NEONTECH 🔥
                 foreach (var item in carritoFinal)
                 {
                     // Buscamos el juego específico en la base de datos usando su ID
