@@ -17,4 +17,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 # Asegúrate de que el nombre del .dll sea exactamente igual a tu proyecto
-ENTRYPOINT ["dotnet", "KEYVERSE.dll"]
+ENTRYPOINT ["dotnet", "KeyVerse.dll"]
