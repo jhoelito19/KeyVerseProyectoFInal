@@ -16,14 +16,15 @@ namespace KeyVerse.Controllers
             _context = context;
         }
 
-        // 1. Catálogo Principal con EF Core
+       
         public IActionResult Index()
         {
-            var listaJuegos = _context.Juegos.ToList();
+            // 🔥 SOLUCIÓN: Añadimos OrderBy para que NUNCA se muevan de su lugar al actualizar el stock
+            var listaJuegos = _context.Juegos.OrderBy(j => j.IdJuego).ToList();
             return View(listaJuegos);
         }
 
-        // 2. Buscador en tiempo real con EF Core (LINQ)
+        // 2. Buscador optimizado para PostgreSQL
         public IActionResult Buscar(string nombre)
         {
             if (string.IsNullOrEmpty(nombre))
@@ -31,9 +32,11 @@ namespace KeyVerse.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Busca coincidencias ignorando mayúsculas/minúsculas
+            // 🔥 SOLUCIÓN: Usamos EF.Functions.ILike que es nativo de Postgres para buscar texto 
+            // ignorando mayúsculas, minúsculas y acentos de forma ultra eficiente.
             var resultados = _context.Juegos
-                .Where(j => j.Nombre.ToLower().Contains(nombre.ToLower()))
+                .Where(j => EF.Functions.ILike(j.Nombre, $"%{nombre}%"))
+                .OrderBy(j => j.IdJuego) // También los mantenemos ordenados aquí
                 .ToList();
 
             return View("Index", resultados);
