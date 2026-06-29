@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using KeyVerse.Data;
 using KeyVerse.Models;
 using System.Text.Json;
@@ -101,23 +102,14 @@ namespace KeyVerse.Controllers
             {
                 foreach (var item in carritoFinal)
                 {
-                    // Buscamos el juego específico en la base de datos usando su ID
-                    var juegoEnDb = _context.Juegos.FirstOrDefault(j => j.IdJuego == item.IdJuego);
-
-                    if (juegoEnDb != null)
-                    {
-                        if (juegoEnDb.Stock > 0)
-                        {
-                            juegoEnDb.Stock -= 1; // Restamos una unidad por cada compra
-                        }
-                    }
+                    // 🔥 BALA DE PLATA: Le ordenamos directamente a Postgres que reste 1, 
+                    // sin importar lo que opine Entity Framework ni la memoria caché.
+                    _context.Database.ExecuteSqlRaw($"UPDATE \"Juegos\" SET \"Stock\" = \"Stock\" - 1 WHERE \"IdJuego\" = {item.IdJuego} AND \"Stock\" > 0");
                 }
 
-                // Guardamos los cambios de forma definitiva en la nube
-                _context.SaveChanges();
-                // ------------------------------------------------------------
+                // Como lanzamos la orden directo al motor, ya no necesitamos usar _context.SaveChanges()
 
-                // Vaciamos el carrito de la memoria del usuario
+                // Vaciamos el carrito de la sesión
                 HttpContext.Session.Remove("MiCarrito");
 
                 ViewBag.NumeroOrden = new Random().Next(100000, 999999);
