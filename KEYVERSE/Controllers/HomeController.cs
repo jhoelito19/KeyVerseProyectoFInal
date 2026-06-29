@@ -99,7 +99,28 @@ namespace KeyVerse.Controllers
 
             if (carritoFinal.Count > 0)
             {
+                // 🔥 TRUCO DE INGENIERÍA: DESCONTAR EL STOCK REAL EN NEONTECH 🔥
+                foreach (var item in carritoFinal)
+                {
+                    // Buscamos el juego específico en la base de datos usando su ID
+                    var juegoEnDb = _context.Juegos.FirstOrDefault(j => j.IdJuego == item.IdJuego);
+
+                    if (juegoEnDb != null)
+                    {
+                        if (juegoEnDb.Stock > 0)
+                        {
+                            juegoEnDb.Stock -= 1; // Restamos una unidad por cada compra
+                        }
+                    }
+                }
+
+                // Guardamos los cambios de forma definitiva en la nube
+                _context.SaveChanges();
+                // ------------------------------------------------------------
+
+                // Vaciamos el carrito de la memoria del usuario
                 HttpContext.Session.Remove("MiCarrito");
+
                 ViewBag.NumeroOrden = new Random().Next(100000, 999999);
                 return View(carritoFinal);
             }
