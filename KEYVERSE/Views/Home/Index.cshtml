@@ -3,44 +3,54 @@
     ViewData["Title"] = "Catálogo - KeyVerse";
 }
 
+<!-- Importamos FontAwesome para los íconos -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
 <style>
-    /* 🎨 PALETA INSTANT GAMING */
+    /* 🎨 PALETA KEYVERSE */
     body {
         background-color: #121212 !important;
         color: #ffffff !important;
         font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
-    /* Contenedor Superior (Buscador Flotante) */
+    /* 🔥 EFECTO CRISTAL (STICKY + BLUR) */
     .top-search-wrapper {
         display: flex;
         justify-content: center;
-        position: relative;
-        z-index: 10;
-        margin-top: 10px;
-        margin-bottom: 20px;
+        /* Hacemos que se quede pegado al hacer scroll */
+        position: sticky;
+        top: 20px;
+        z-index: 1000;
+        margin-top: 15px;
+        margin-bottom: 30px;
     }
 
     .ig-search-container {
-        background-color: rgba(40, 40, 40, 0.9);
-        backdrop-filter: blur(10px);
+        /* Fondo gris semi-transparente */
+        background-color: rgba(38, 38, 38, 0.65);
+        /* Efecto de vidrio empañado (Blur) */
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        /* Borde súper sutil para resaltar el cristal */
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 40px;
         padding: 5px 5px 5px 25px;
         display: flex;
         align-items: center;
         gap: 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        width: 100%;
+        max-width: 850px;
     }
 
     .ig-platforms {
         display: flex;
         gap: 20px;
         color: #b3b3b3;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         font-weight: 500;
-        border-right: 1px solid #444;
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
         padding-right: 20px;
     }
 
@@ -53,7 +63,7 @@
         }
 
             .ig-platforms span:hover {
-                color: #ffffff;
+                color: #0099ff;
             }
 
     .ig-search-box {
@@ -61,16 +71,16 @@
         border: none;
         color: white;
         outline: none;
-        width: 300px;
+        width: 100%;
         font-size: 0.95rem;
     }
 
         .ig-search-box::placeholder {
-            color: #888;
+            color: #bbb;
         }
 
     .ig-search-btn {
-        background-color: #ff5e00; /* Naranja Instant Gaming */
+        background-color: #0099ff;
         border: none;
         border-radius: 50%;
         width: 45px;
@@ -81,20 +91,20 @@
         color: white;
         cursor: pointer;
         transition: background-color 0.2s, transform 0.2s;
+        flex-shrink: 0;
     }
 
         .ig-search-btn:hover {
-            background-color: #ff7324;
+            background-color: #007acc;
             transform: scale(1.05);
         }
 
     /* Hero Banner Principal */
     .ig-hero {
         position: relative;
-        height: 400px;
+        height: 350px;
         border-radius: 12px;
         overflow: hidden;
-        /* Imagen temporal estilo Forza/Cyberpunk para el Banner */
         background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
         display: flex;
         align-items: center;
@@ -119,14 +129,14 @@
     }
 
     .ig-hero-title {
-        font-size: 3.5rem;
+        font-size: 3rem;
         font-weight: bold;
         margin-bottom: 15px;
         text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
     }
 
     .ig-discount {
-        background-color: #ff5e00;
+        background-color: #0099ff;
         color: white;
         padding: 4px 12px;
         border-radius: 4px;
@@ -225,7 +235,7 @@
     }
 
     .ig-card:hover .ig-card-title {
-        color: #ff5e00; /* El título se pone naranja al pasar el mouse */
+        color: #0099ff;
     }
 
     .ig-stock {
@@ -237,6 +247,7 @@
 
 <div class="container mt-2">
 
+    <!-- Buscador Flotante y de Cristal -->
     <div class="top-search-wrapper">
         <form asp-controller="Home" asp-action="Buscar" method="get" class="ig-search-container">
 
@@ -255,6 +266,7 @@
         </form>
     </div>
 
+    <!-- Hero Banner -->
     <div class="ig-hero">
         <div class="ig-hero-overlay"></div>
         <div class="ig-hero-content">
@@ -267,37 +279,19 @@
     </div>
 
     <h3 class="section-title">
-        Tendencias <i class="fa-solid fa-chevron-right"></i>
+        Catálogo en Stock <i class="fa-solid fa-chevron-right"></i>
     </h3>
 
+    <!-- Grilla de Juegos -->
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mb-5">
         @foreach (var juego in Model)
         {
-            // --- MAGIA C#: IMÁGENES REALES O AUTOGENERADAS ---
-            string urlImagen = "";
-            if (!string.IsNullOrEmpty(juego.ImagenUrl) && juego.ImagenUrl.StartsWith("http"))
-            {
-                urlImagen = juego.ImagenUrl;
-            }
-            else
-            {
-                urlImagen = "https://picsum.photos/seed/" + juego.IdJuego + "/600/300";
-            }
+            string urlImagen = (!string.IsNullOrEmpty(juego.ImagenUrl) && juego.ImagenUrl.StartsWith("http")) ? juego.ImagenUrl : "https://picsum.photos/seed/" + juego.IdJuego + "/600/300";
 
-            // --- MAGIA C#: VIDEOS POR CATEGORÍA ---
             string urlVideo = "https://media.w3.org/2010/05/sintel/trailer.mp4";
-            if (juego.IdCategoria == 1 || juego.IdCategoria == 7)
-            {
-                urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-            }
-            else if (juego.IdCategoria == 4)
-            {
-                urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
-            }
-            else if (juego.IdCategoria == 6 || juego.IdCategoria == 2)
-            {
-                urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4";
-            }
+            if (juego.IdCategoria == 1 || juego.IdCategoria == 7) urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+            else if (juego.IdCategoria == 4) urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+            else if (juego.IdCategoria == 6 || juego.IdCategoria == 2) urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4";
 
             <div class="col">
                 <a href="/Home/Detalles?id=@juego.IdJuego" class="ig-card-link">
