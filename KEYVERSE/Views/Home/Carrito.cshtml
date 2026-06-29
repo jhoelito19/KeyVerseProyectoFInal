@@ -1,0 +1,98 @@
+﻿@model List<KeyVerse.Models.Juego>
+@{
+    ViewData["Title"] = "Mi Carrito - KeyVerse";
+    decimal totalPagar = 0; // Aquí iremos sumando el precio
+}
+
+<style>
+    body {
+        background-color: #1b2838;
+        color: #c7d5e0;
+    }
+
+    .cart-container {
+        background-color: #202d39;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .table-dark th {
+        color: #66c0f4;
+        border-bottom: 2px solid #2a475e;
+    }
+
+    .table-dark td {
+        border-bottom: 1px solid #2a475e;
+        vertical-align: middle;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="cart-container">
+        <h2 class="mb-4 text-white">🛒 Tu Carrito de Compras</h2>
+
+        @if (Model == null || Model.Count == 0)
+        {
+            <div class="alert alert-warning">
+                Tu carrito está más vacío que mi billetera a fin de mes. ¡Ve a comprar algo!
+            </div>
+            <a href="/Home/Index" class="btn btn-outline-info">Volver a la tienda</a>
+        }
+        else
+        {
+            <table class="table table-dark table-hover mt-3">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Producto</th>
+                        <th>Precio Unit.</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var itemsAgrupados = Model.GroupBy(j => j.IdJuego)
+                                                  .Select(g => new
+                                                  {
+                                                      Juego = g.First(),
+                                                      Cantidad = g.Count(),
+                                                      Subtotal = g.First().Precio * g.Count()
+                                                  }).ToList();
+                    }
+
+                    @foreach (var item in itemsAgrupados)
+                    {
+                        totalPagar += item.Subtotal;
+                        <tr>
+                            <td>#@item.Juego.IdJuego</td>
+                            <td class="fw-bold text-white">@item.Juego.Nombre</td>
+                            <td class="text-secondary">$ @item.Juego.Precio.ToString("0.00")</td>
+                            <td>
+                                <span class="badge bg-info text-dark fs-6">@item.Cantidad</span>
+                            </td>
+                            <td class="text-success fw-bold">$ @item.Subtotal.ToString("0.00")</td>
+
+                            <td>
+                                <a href="/Home/EliminarDelCarrito?id=@item.Juego.IdJuego" class="btn btn-danger btn-sm">❌ Quitar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="5" class="text-end fs-5">TOTAL A PAGAR:</th>
+                        <th class="text-success fs-5 fw-bold">$ @totalPagar.ToString("0.00")</th>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a href="/Home/Index" class="btn btn-outline-light">Sigue Comprando</a>
+                <a href="/Home/ConfirmarCompra" class="btn btn-success btn-lg">Pagar con Tarjeta 💳</a>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,169 @@
+﻿@model List<KeyVerse.Models.Juego>
+@{
+    ViewData["Title"] = "Catálogo - KeyVerse";
+}
+
+<style>
+    body {
+        background-color: #1b2838;
+        color: #c7d5e0;
+    }
+
+    .hero-banner {
+        background: linear-gradient(90deg, #171a21 0%, #2a475e 100%);
+        padding: 40px 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .game-card {
+        background-color: #202d39;
+        border: none;
+        border-radius: 8px;
+        transition: transform 0.2s;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+        }
+
+    .game-price {
+        color: #66c0f4;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .btn-comprar {
+        background: linear-gradient(90deg, #75b022 0%, #588a1b 100%);
+        color: white;
+        border: none;
+    }
+
+        .btn-comprar:hover {
+            background: linear-gradient(90deg, #8ed629 0%, #6aa620 100%);
+            color: white;
+        }
+
+    /* 4. Estilos para el contenedor multimedia y el video oculto */
+    .media-container {
+        position: relative;
+        height: 200px;
+        background-color: #121a24;
+        border-bottom: 1px solid #2a475e;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hover-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Hace que el video llene el cuadro sin deformarse */
+        opacity: 0; /* Oculto por defecto */
+        transition: opacity 0.5s ease; /* Transición suave de fundido */
+        z-index: 2;
+    }
+
+    .media-container:hover .hover-video {
+        opacity: 1; /* Aparece al pasar el mouse */
+    }
+
+</style>
+
+<div class="container mt-4">
+
+    <div class="hero-banner text-center text-white">
+        <h1 class="display-4 fw-bold">Bienvenido a KeyVerse</h1>
+        <p class="lead">Las mejores keys de activación, mods y rangos al instante.</p>
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <form class="d-flex" action="/Home/Buscar" method="get">
+                    <input class="form-control me-2" type="search" placeholder="Ej. Buscar juegos, mods..." name="criterio">
+                    <button class="btn btn-outline-info" type="submit">Buscar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="mb-4 text-white">Catálogo Oficial en Stock</h3>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var juego in Model)
+        {
+            // --- MAGIA C#: ASIGNAMOS IMÁGENES Y VIDEOS DINÁMICOS ---
+
+            // --- MAGIA C#: IMÁGENES REALES O AUTOGENERADAS ---
+            string urlImagen = "";
+
+            // Si la base de datos tiene un link de internet (empieza con http), usamos la real
+            if (!string.IsNullOrEmpty(juego.ImagenUrl) && juego.ImagenUrl.StartsWith("http"))
+            {
+                urlImagen = juego.ImagenUrl;
+            }
+            else
+            {
+                // Si todavía tiene un número viejo, usamos la abstracta para rellenar
+                urlImagen = "https://picsum.photos/seed/" + juego.IdJuego + "/600/300";
+            }
+
+            // 2. Tráiler por defecto (Fantasía / RPG)
+            string urlVideo = "https://media.w3.org/2010/05/sintel/trailer.mp4";
+
+            // 3. Cambiamos el tráiler según la categoría del juego (IdCategoria)
+            if (juego.IdCategoria == 1 || juego.IdCategoria == 7)
+            {
+                // Deportes e Indie (Tráiler casual / animación)
+                urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+            }
+            else if (juego.IdCategoria == 4)
+            {
+                // Redes, OSINT y Software (Tráiler tecnológico / código)
+                urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+            }
+            else if (juego.IdCategoria == 6 || juego.IdCategoria == 2)
+            {
+                // Shooters y Acción (Tráiler de disparos / Sci-Fi)
+                urlVideo = "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4";
+            }
+            // --------------------------------------------------------
+
+            <div class="col">
+                <div class="card h-100 text-white game-card">
+
+                    <div class="media-container"
+                         style="background-image: url('@urlImagen'); background-size: cover; background-position: center;"
+                         onmouseenter="var vid = this.querySelector('video'); vid.style.opacity = '1'; vid.play().catch(e => console.log(e));"
+                         onmouseleave="var vid = this.querySelector('video'); vid.style.opacity = '0'; vid.pause(); vid.currentTime = 0;">
+
+                        <video class="hover-video" loop muted playsinline style="opacity: 0; transition: opacity 0.5s ease;">
+                            <source src="@urlVideo" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <span class="badge bg-secondary mb-2 align-self-start">Categoría #@juego.IdCategoria</span>
+                        <h5 class="card-title">@juego.Nombre</h5>
+
+                        <p class="card-text text-info mt-auto">
+                            ✓ En Stock: @juego.Stock unidades
+                        </p>
+                    </div>
+
+                    <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center pb-3">
+                        <span class="fs-4 fw-bold text-white">@juego.Precio.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</span>
+
+                        <a href="/Home/Detalles?id=@juego.IdJuego" class="btn btn-outline-info btn-sm btn-animado">🎮 Ver detalles</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

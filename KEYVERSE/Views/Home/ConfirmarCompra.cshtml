@@ -1,0 +1,91 @@
+﻿@model List<KeyVerse.Models.Juego>
+@{
+    ViewData["Title"] = "¡Compra Confirmada! - KeyVerse";
+    decimal totalPagado = 0;
+}
+
+<style>
+    body {
+        background-color: #1b2838;
+        color: #c7d5e0;
+    }
+
+    .success-box {
+        background-color: #171a21;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        border-top: 5px solid #a3cfbb;
+    }
+
+    .invoice-header {
+        border-bottom: 1px solid #2a475e;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    .ticket-title {
+        color: #75b022;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="col-md-8 success-box">
+        <div class="text-center invoice-header">
+            <span style="font-size: 60px;">🎉</span>
+            <h2 class="ticket-title mt-2">¡Gracias por tu compra!</h2>
+            <p class="text-secondary">Tu pago ha sido procesado de forma inmediata y segura.</p>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-6">
+                <span class="text-secondary d-block">NÚMERO DE ORDEN:</span>
+                <strong class="text-white">#@ViewBag.NumeroOrden</strong>
+            </div>
+            <div class="col-6 text-end">
+                <span class="text-secondary d-block">ENTREGA:</span>
+                <strong class="text-info">Digital Instantánea</strong>
+            </div>
+        </div>
+
+        <h5 class="text-white mb-3">Detalle del Recibo</h5>
+        <div class="bg-black p-3 rounded mb-4" style="background-color: #121a24 !important; border: 1px solid #2a475e;">
+            @{
+                var agrupados = Model.GroupBy(j => j.IdJuego)
+                                     .Select(g => new
+                                     {
+                                         Nombre = g.First().Nombre,
+                                         Cantidad = g.Count(),
+                                         Subtotal = g.First().Precio * g.Count()
+                                     }).ToList();
+            }
+
+            @foreach (var item in agrupados)
+            {
+                totalPagado += item.Subtotal;
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <span class="badge bg-secondary me-2">x@item.Cantidad</span>
+                        <span class="text-white fw-bold">@item.Nombre</span>
+                    </div>
+                    <span class="text-success fw-bold">$ @item.Subtotal.ToString("0.00")</span>
+                </div>
+            }
+
+            <hr style="border-color: #2a475e;">
+            <div class="d-flex justify-content-between align-items-center fs-5 fw-bold">
+                <span class="text-white">Total Cargado:</span>
+                <span class="text-success">$ @totalPagado.ToString("0.00")</span>
+            </div>
+        </div>
+
+        <div class="alert alert-dark text-center" style="background-color: #202d39; border-color: #2a475e; color: #c7d5e0;">
+            🔑 Las claves de activación y los accesos han sido enviados a tu correo electrónico. Revisa también tu carpeta de spam.
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/Home/Index" class="btn btn-steam-green w-50" style="background: linear-gradient(to bottom, #75b022 5%, #588a1b 95%); color: #beee11; font-weight: bold; padding: 10px; border-radius: 3px; text-decoration: none; display: inline-block;">Volver al Catálogo</a>
+        </div>
+    </div>
+</div>

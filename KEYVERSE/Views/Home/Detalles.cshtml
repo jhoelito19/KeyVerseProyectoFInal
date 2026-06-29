@@ -1,0 +1,128 @@
+﻿@model KeyVerse.Models.Juego
+@{
+    ViewData["Title"] = Model.Nombre + " - KeyVerse";
+}
+
+<style>
+    body {
+        background-color: #1b2838;
+        color: #c7d5e0;
+    }
+
+    .steam-breadcrumb {
+        font-size: 12px;
+        color: #66c0f4;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+    }
+
+    .steam-game-title {
+        font-family: "Motiva Sans", sans-serif;
+        font-size: 32px;
+        color: #ffffff;
+        font-weight: 300;
+    }
+
+    .steam-main-box {
+        background: linear-gradient(to right, #000000, rgba(0,0,0,0), #1b2838);
+        background-color: #171a21;
+        padding: 20px;
+        border-radius: 4px;
+    }
+
+    .steam-purchase-box {
+        background: linear-gradient(to right, #223243, #1a2634);
+        padding: 25px;
+        border-radius: 4px;
+        margin-top: 30px;
+        border-left: 4px solid #66c0f4;
+    }
+
+    .steam-price {
+        font-size: 24px;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .btn-steam-green {
+        background: linear-gradient( to bottom, #75b022 5%, #588a1b 95% );
+        color: #beee11;
+        font-weight: bold;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 3px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        text-decoration: none;
+    }
+
+        .btn-steam-green:hover {
+            background: linear-gradient( to bottom, #8ed629 5%, #6aa621 95% );
+            color: #ffffff;
+        }
+
+    .meta-label {
+        color: #556772;
+        font-size: 14px;
+    }
+
+    .meta-value {
+        color: #66c0f4;
+        font-size: 14px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="steam-breadcrumb">
+        <a href="/Home/Index" style="color: #66c0f4; text-decoration: none;">Todos los Juegos</a> > Detalles del Producto
+    </div>
+
+    <h1 class="steam-game-title mb-4">@Model.Nombre</h1>
+
+    <div class="row steam-main-box">
+        <div class="col-md-6 mb-3 text-center">
+            <div style="background-color: #121a24; height: 300px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid #2a475e;">
+                <span style="font-size: 70px;">🎮</span>
+            </div>
+        </div>
+
+        <div class="col-md-6 d-flex flex-column justify-content-between p-4">
+            <div>
+                <p class="text-secondary">
+                    Adquiere la clave digital oficial y original de <strong class="text-white">@Model.Nombre</strong>. Activación inmediata y garantizada de forma global en tu plataforma correspondiente.
+                </p>
+
+                <hr style="border-color: #2a475e;">
+
+                <div class="mb-2">
+                    <span class="meta-label">ID PRODUCTO:</span>
+                    <span class="meta-value ms-2">#@Model.IdJuego</span>
+                </div>
+                <div class="mb-2">
+                    <span class="meta-label">ESTADO:</span>
+                    <span class="badge @(Model.Stock > 0 ? "bg-success" : "bg-danger") ms-2">
+                        @(Model.Stock > 0 ? "EN STOCK" : "AGOTADO")
+                    </span>
+                </div>
+                <div class="mb-2">
+                    <span class="meta-label">DISPONIBLES:</span>
+                    <span class="meta-value ms-2 text-white">@Model.Stock unidades</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="steam-purchase-box d-flex justify-content-between align-items-center">
+        <div>
+            <h4 class="text-white m-0">Comprar @Model.Nombre</h4>
+            <p class="text-secondary m-0" style="font-size: 13px;">Entrega digital instantánea</p>
+        </div>
+        <div class="d-flex align-items-center bg-black p-2 rounded" style="background-color: #000000 !important;">
+            <span class="steam-price me-3">@Model.Precio.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</span>
+            <a href="/Home/AgregarAlCarrito?id=@Model.IdJuego" class="btn-steam-green">Añadir al carro</a>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/Home/Index" class="btn btn-sm btn-secondary">← Volver a la Tienda</a>
+    </div>
+</div>
