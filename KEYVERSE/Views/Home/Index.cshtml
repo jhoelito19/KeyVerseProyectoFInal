@@ -3,132 +3,181 @@
     ViewData["Title"] = "Catálogo - KeyVerse";
 }
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
 <style>
-    /* 🎨 PALETA DARK VINTAGE */
+    /* 🎨 PALETA INSTANT GAMING */
     body {
         background-color: #121212 !important;
-        color: #e4e4e4 !important;
-        font-family: 'Courier New', Courier, monospace;
+        color: #ffffff !important;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
-    /* Banner Principal */
-    .vintage-banner {
-        background: linear-gradient(135deg, #0d0d0d 0%, #221f1d 100%);
-        border-bottom: 2px solid #c5a059;
-        padding: 4rem 2rem;
-        border-radius: 8px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        margin-bottom: 3rem;
-    }
-
-        .vintage-banner h1 {
-            font-family: 'Georgia', serif;
-            color: #c5a059;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
-        }
-
-        .vintage-banner p {
-            color: #a09d98;
-            font-style: italic;
-            font-size: 1.1rem;
-        }
-
-    /* Buscador Premium */
-    .search-input {
-        background-color: #1a1a1a;
-        border: 1px solid #c5a059;
-        color: #c5a059;
-        font-family: 'Courier New', Courier, monospace;
-    }
-
-        .search-input:focus {
-            background-color: #222;
-            border-color: #dfb662;
-            box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
-            color: white;
-        }
-
-    .search-btn {
-        background-color: #c5a059;
-        color: #121212;
-        border: 1px solid #c5a059;
-        font-weight: bold;
-        font-family: 'Georgia', serif;
-        transition: all 0.3s ease;
-    }
-
-        .search-btn:hover {
-            background-color: #dfb662;
-            color: black;
-            box-shadow: 0 0 15px rgba(223, 182, 98, 0.5);
-        }
-
-    /* Tarjetas (Cards) */
-    .game-card {
-        background-color: #1a1a1a !important;
-        border: 1px solid #333 !important;
-        border-radius: 8px;
-        transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-        overflow: hidden;
-    }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            border-color: #c5a059 !important;
-            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.15) !important;
-        }
-
-    .card-title {
-        color: #c5a059 !important;
-        font-family: 'Georgia', serif;
-        font-weight: bold;
-        letter-spacing: 1px;
-    }
-
-    .stock-text {
-        color: #8b8b8b;
-        font-style: italic;
-    }
-
-    .precio-text {
-        color: #e4e4e4;
-        font-family: 'Georgia', serif;
-        text-shadow: 1px 1px 2px black;
-    }
-
-    /* Botón Ver Detalles Vintage */
-    .btn-vintage-outline {
-        border: 1px solid #c5a059;
-        color: #c5a059;
-        background: transparent;
-        font-family: 'Courier New', Courier, monospace;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-
-        .btn-vintage-outline:hover {
-            background-color: #c5a059;
-            color: #121212;
-            box-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
-        }
-
-    /* Contenedor Multimedia */
-    .media-container {
+    /* Contenedor Superior (Buscador Flotante) */
+    .top-search-wrapper {
+        display: flex;
+        justify-content: center;
         position: relative;
-        height: 200px;
-        background-color: #0d0d0d;
-        border-bottom: 1px solid #333;
-        overflow: hidden;
+        z-index: 10;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .ig-search-container {
+        background-color: rgba(40, 40, 40, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 40px;
+        padding: 5px 5px 5px 25px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+
+    .ig-platforms {
+        display: flex;
+        gap: 20px;
+        color: #b3b3b3;
+        font-size: 0.9rem;
+        font-weight: 500;
+        border-right: 1px solid #444;
+        padding-right: 20px;
+    }
+
+        .ig-platforms span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+            .ig-platforms span:hover {
+                color: #ffffff;
+            }
+
+    .ig-search-box {
+        background-color: transparent;
+        border: none;
+        color: white;
+        outline: none;
+        width: 300px;
+        font-size: 0.95rem;
+    }
+
+        .ig-search-box::placeholder {
+            color: #888;
+        }
+
+    .ig-search-btn {
+        background-color: #ff5e00; /* Naranja Instant Gaming */
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
         display: flex;
         align-items: center;
         justify-content: center;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.2s;
     }
 
-    .game-card:hover .media-container {
-        border-bottom: 1px solid #c5a059;
+        .ig-search-btn:hover {
+            background-color: #ff7324;
+            transform: scale(1.05);
+        }
+
+    /* Hero Banner Principal */
+    .ig-hero {
+        position: relative;
+        height: 400px;
+        border-radius: 12px;
+        overflow: hidden;
+        /* Imagen temporal estilo Forza/Cyberpunk para el Banner */
+        background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+        display: flex;
+        align-items: center;
+        margin-bottom: 50px;
+    }
+
+    .ig-hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, rgba(18,18,18,1) 0%, rgba(18,18,18,0.6) 40%, rgba(18,18,18,0) 100%);
+        z-index: 1;
+    }
+
+    .ig-hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 50px;
+        width: 100%;
+    }
+
+    .ig-hero-title {
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+    }
+
+    .ig-discount {
+        background-color: #ff5e00;
+        color: white;
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-right: 15px;
+    }
+
+    .ig-price {
+        font-size: 2.5rem;
+        font-weight: bold;
+        text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+    }
+
+    /* Sección Tendencias */
+    .section-title {
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+    }
+
+        .section-title i {
+            color: #666;
+            font-size: 1.2rem;
+            margin-left: 10px;
+        }
+
+    /* Tarjetas de Juegos (Cards) */
+    .ig-card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+
+    .ig-card {
+        background: transparent !important;
+        border: none !important;
+        transition: transform 0.2s;
+    }
+
+        .ig-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .media-container {
+        position: relative;
+        height: 220px;
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #1a1a1a;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
     }
 
     .hover-video {
@@ -139,34 +188,89 @@
         height: 100%;
         object-fit: cover;
         opacity: 0;
-        transition: opacity 0.5s ease;
+        transition: opacity 0.4s ease;
         z-index: 2;
     }
 
     .media-container:hover .hover-video {
         opacity: 1;
     }
+
+    .card-price-tag {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background: rgba(0,0,0,0.8);
+        padding: 5px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        z-index: 3;
+        backdrop-filter: blur(4px);
+    }
+
+    .ig-card-info {
+        padding: 15px 5px;
+    }
+
+    .ig-card-title {
+        font-size: 1.1rem;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0;
+        color: #e6e6e6;
+        transition: color 0.2s;
+    }
+
+    .ig-card:hover .ig-card-title {
+        color: #ff5e00; /* El título se pone naranja al pasar el mouse */
+    }
+
+    .ig-stock {
+        font-size: 0.85rem;
+        color: #888;
+        margin-top: 5px;
+    }
 </style>
 
-<div class="container mt-4">
+<div class="container mt-2">
 
-    <div class="vintage-banner text-center">
-        <h1>Bienvenido a KeyVerse</h1>
-        <p>Las mejores keys de activación, mods y software al instante.</p>
+    <div class="top-search-wrapper">
+        <form asp-controller="Home" asp-action="Buscar" method="get" class="ig-search-container">
 
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-8">
-                <form asp-controller="Home" asp-action="Buscar" method="get" class="d-flex justify-content-center gap-2">
-                    <input type="text" name="nombre" class="form-control search-input w-75" placeholder="Ej. Buscar juegos, mods..." value="@ViewBag.BusquedaActual">
-                    <button type="submit" class="btn search-btn px-4">BUSCAR</button>
-                </form>
+            <div class="ig-platforms d-none d-md-flex">
+                <span><i class="fa-solid fa-desktop"></i> PC</span>
+                <span><i class="fa-brands fa-playstation"></i> PlayStation</span>
+                <span><i class="fa-brands fa-xbox"></i> Xbox</span>
+                <span><i class="fa-solid fa-gamepad"></i> Nintendo</span>
+            </div>
+
+            <input type="text" name="nombre" class="ig-search-box" placeholder="Buscar en el catálogo..." value="@ViewBag.BusquedaActual">
+
+            <button type="submit" class="ig-search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="ig-hero">
+        <div class="ig-hero-overlay"></div>
+        <div class="ig-hero-content">
+            <h1 class="ig-hero-title">KeyVerse Premium</h1>
+            <div class="d-flex align-items-center mt-3">
+                <span class="ig-discount">-31%</span>
+                <span class="ig-price">$48.59</span>
             </div>
         </div>
     </div>
 
-    <h3 class="mb-4 text-white" style="font-family: 'Georgia', serif; border-bottom: 1px solid #333; padding-bottom: 10px;">Catálogo Oficial en Stock</h3>
+    <h3 class="section-title">
+        Tendencias <i class="fa-solid fa-chevron-right"></i>
+    </h3>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mb-5">
         @foreach (var juego in Model)
         {
             // --- MAGIA C#: IMÁGENES REALES O AUTOGENERADAS ---
@@ -196,33 +300,28 @@
             }
 
             <div class="col">
-                <div class="card h-100 game-card">
+                <a href="/Home/Detalles?id=@juego.IdJuego" class="ig-card-link">
+                    <div class="ig-card">
 
-                    <div class="media-container"
-                         style="background-image: url('@urlImagen'); background-size: cover; background-position: center;"
-                         onmouseenter="var vid = this.querySelector('video'); vid.style.opacity = '1'; vid.play().catch(e => console.log(e));"
-                         onmouseleave="var vid = this.querySelector('video'); vid.style.opacity = '0'; vid.pause(); vid.currentTime = 0;">
+                        <div class="media-container"
+                             style="background-image: url('@urlImagen'); background-size: cover; background-position: center;"
+                             onmouseenter="var vid = this.querySelector('video'); vid.style.opacity = '1'; vid.play().catch(e => console.log(e));"
+                             onmouseleave="var vid = this.querySelector('video'); vid.style.opacity = '0'; vid.pause(); vid.currentTime = 0;">
 
-                        <video class="hover-video" loop muted playsinline>
-                            <source src="@urlVideo" type="video/mp4">
-                        </video>
+                            <div class="card-price-tag">@juego.Precio.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</div>
+
+                            <video class="hover-video" loop muted playsinline>
+                                <source src="@urlVideo" type="video/mp4">
+                            </video>
+                        </div>
+
+                        <div class="ig-card-info">
+                            <h5 class="ig-card-title">@juego.Nombre</h5>
+                            <p class="ig-stock"><i class="fa-solid fa-check text-success"></i> Stock: @juego.Stock</p>
+                        </div>
+
                     </div>
-
-                    <div class="card-body d-flex flex-column">
-                        <span class="badge mb-2 align-self-start" style="background-color: #333; color: #c5a059; border: 1px solid #c5a059;">Categoría #@juego.IdCategoria</span>
-                        <h5 class="card-title">@juego.Nombre</h5>
-
-                        <p class="card-text stock-text mt-auto">
-                            ✓ En Stock: @juego.Stock unidades
-                        </p>
-                    </div>
-
-                    <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center pb-3 pt-0">
-                        <span class="fs-4 fw-bold precio-text">@juego.Precio.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</span>
-
-                        <a href="/Home/Detalles?id=@juego.IdJuego" class="btn btn-vintage-outline btn-sm">🎮 Ver detalles</a>
-                    </div>
-                </div>
+                </a>
             </div>
         }
     </div>
